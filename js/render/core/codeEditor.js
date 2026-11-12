@@ -77,7 +77,11 @@ export function CodeEditor(obj) {
       // ONLY RENDER THE HANDS WHEN THEY ARE LIFTED OFF THE KEYBOARD
 
       for (let hand in {left:0, right:1})
-         clay.handsWidget.visible(hand, (inputEvents.pos(hand)[1] - 52 * .0254) / .1);
+         if (clay.handsWidget) {
+	    let pos = inputEvents.pos(hand);
+	    if (pos)
+               clay.handsWidget.visible(hand, (pos[1] - 52 * .0254) / .1);
+         }
 
       // THE SCREEN TURNS TO FACE THE USER
 

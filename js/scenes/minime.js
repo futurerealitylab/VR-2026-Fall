@@ -10,16 +10,17 @@ export const init = async model => {
    head.child(0).add('sphere').color(0,0,0).turnY(-.4).turnX(-.2).move(0,0,1).scale(.24,.14,.05);
    head.child(0).add('sphere').color(0,0,0).turnY( .4).turnX(-.2).move(0,0,1).scale(.24,.14,.05);
 
-   LHand.add('tubeZ').scale(.02,.02,-.05).color(1,1,1);
-   LHand.add('sphere').move(0,0,-.1).scale(.03).color(.5,.5,.5);
+   LHand.add('tubeZ').move(0,0,.1).scale(.02,.02,-.05).color(1,1,1);
+   LHand.add('sphere').scale(.03,.03,-.03).color(.5,.5,.5);
 
-   RHand.add('tubeZ').scale(.02,.02,-.05).color(1,1,1);
-   RHand.add('sphere').move(0,0,-.1).scale(.03).color(.5,.5,.5);
+   RHand.add('tubeZ').move(0,0,.1).scale(.02,.02,-.05).color(1,1,1);
+   RHand.add('sphere').scale(.03,.03,-.03).color(.5,.5,.5);
 
    model.animate(() => {
       tableTop.identity().move(0,.75,-.1).scale(.3,.3,-.3);
-      head.setMatrix(clientState.head(0));
-      LHand.setMatrix(clientState.hand(0,'left' ));
-      RHand.setMatrix(clientState.hand(0,'right'));
+      console.log(window.clientData);
+      head.setMatrix(clientState.head(1));
+      LHand.setMatrix(clientState.hand(1,'left' ));
+      RHand.setMatrix(clientState.hand(1,'right'));
    });
 }

@@ -84,6 +84,12 @@ export class InlineViewerHelper {
          anidraw.mousedown(event);
 	 return;
       }
+
+      if (window.interactMode == 4) {
+         if (window.mousedown)
+            window.mousedown(event);
+	 return;
+      }
     });
 
     canvas.addEventListener("mouseup", event => {
@@ -98,6 +104,12 @@ export class InlineViewerHelper {
          anidraw.mouseup(event);
 	 return;
       }
+
+      if (window.interactMode == 4) {
+         if (window.mouseup)
+            window.mouseup(event);
+	 return;
+      }
     });
 
     canvas.addEventListener("mousemove", event => {
@@ -108,8 +120,15 @@ export class InlineViewerHelper {
          eventHandler.mousemove(event);
 	 return;
       }
+
       if (window.interactMode == 2) {
          anidraw.mousemove(event);
+	 return;
+      }
+
+      if (window.interactMode == 4) {
+         if (window.mousemove)
+            window.mousemove(event);
 	 return;
       }
 
@@ -276,6 +295,12 @@ export class InlineViewerHelper {
        editText.keydown(e);
        return;
     }
+   
+    if (window.interactMode == 4) {
+       if (window.keydown)
+          window.keydown(e);
+       return;
+    }
   }
 
   onKeyUp(e) {
@@ -298,6 +323,16 @@ export class InlineViewerHelper {
        if (! this._editModeSwitch)
           editText.keyup(e);
        this._editModeSwitch = false;
+    }
+
+    if (e.key == 'k' && this._isSpaceKeyDown) {
+       window.interactMode = window.interactMode == 4 ? 0 : 4;
+       return;
+    }
+    if (window.interactMode == 4) {
+       if (window.keyup)
+          window.keyup(e);
+       return;
     }
 
     if (e.keyCode == 32) this._isSpaceKeyDown = false;
