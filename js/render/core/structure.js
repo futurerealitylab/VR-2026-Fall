@@ -62,6 +62,17 @@ export function Structure(name) {
 
    let textData = {};
 
+   this.clearText = textID => {
+      let data = textData[textID];
+      if (data) {
+         let spaces = '';
+         for (let col = 0 ; col < data.nCols ; col++)
+            spaces += ' ';
+	 for (let row = 0 ; row < data.nRows ; row++)
+            clay.setDataMeshText(myForm, data[row].id, data[row].text = spaces, 0);
+      }
+   }
+
    this.setText = (textID, col, row, text) => {
       if (textData[textID] && text != textData[textID][row].text) {
          textData[textID][row].text = text;

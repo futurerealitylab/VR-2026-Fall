@@ -27,7 +27,6 @@ export const init = async model => {
 
    model.animate(() => {
       objInfo = server.synchronize('objInfo'); // BEGIN ANIMATE BY SYNCHRONIZING STATE.
-
       object.identity().move(objInfo.xyz).scale(.03).color(objInfo.rgb); // RENDER OBJECT
    });
 }

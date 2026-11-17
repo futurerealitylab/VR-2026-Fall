@@ -311,7 +311,7 @@ export class InlineViewerHelper {
        }
     }
 
-    if (e.key == 't' && this._isSpaceKeyDown) {
+    if (window.interactMode != 4 && e.key == 't' && this._isSpaceKeyDown) {
        if (window.interactMode == 3)
           window.interactMode = 0;
        else
@@ -326,12 +326,15 @@ export class InlineViewerHelper {
     }
 
     if (e.key == 'k' && this._isSpaceKeyDown) {
-       window.interactMode = window.interactMode == 4 ? 0 : 4;
+       window.interactMode = 4;
+       this._isSpaceKeyDown = false;
+       this._editModeSwitch = true;
        return;
     }
     if (window.interactMode == 4) {
-       if (window.keyup)
+       if (window.keyup && ! this._editModeSwitch)
           window.keyup(e);
+       this._editModeSwitch = false;
        return;
     }
 

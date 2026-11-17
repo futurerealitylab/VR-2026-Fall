@@ -373,6 +373,7 @@ function runDemo(demo) {
       global.gltfRoot.clearNodes();
       delete window.onSpeech;
       window.customShader = '';
+      window.interactMode = 0;
       window.clay.clayPgm.program = null;
 
 

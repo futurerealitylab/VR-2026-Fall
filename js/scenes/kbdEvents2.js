@@ -10,7 +10,7 @@
       DRAGGING WITH YOUR MOUSE MOVES THE OBJECT IN X AND Y.
 */
 
-window.objInfo = { c: 0, x: 0, y: 1.5 };
+window.kbdInfo = { c: 0, x: 0, y: 1.5 };
 
 export const init = async model => {
    let colors = 'red,orange,yellow,green,blue,indigo,violet,white'.split(',');
@@ -20,8 +20,8 @@ export const init = async model => {
    window.keyup = e => {
       let c = e.keyCode - 49;
       if (c >= 0 && c < colors.length) {
-         objInfo.c = c;
-	 server.broadcastGlobal('objInfo');
+         kbdInfo.c = c;
+	 server.broadcastGlobal('kbdInfo');
       }
    }
 
@@ -36,11 +36,11 @@ export const init = async model => {
    window.mouseup = e => isMouseDown = false;
    window.mousemove = e => {
       if (isMouseDown) {
-         objInfo.x += .0015 * (e.clientX - ex);
-         objInfo.y -= .0015 * (e.clientY - ey);
+         kbdInfo.x += .0015 * (e.clientX - ex);
+         kbdInfo.y -= .0015 * (e.clientY - ey);
 	 ex = e.clientX;
 	 ey = e.clientY;
-	 server.broadcastGlobal('objInfo');
+	 server.broadcastGlobal('kbdInfo');
       }
    }
 
@@ -48,7 +48,7 @@ export const init = async model => {
 
    let obj = model.add('square');
    model.animate(() => {
-      objInfo = server.synchronize('objInfo');
-      obj.identity().move(objInfo.x,objInfo.y,0).color(colors[objInfo.c]).scale(.15);
+      kbdInfo = server.synchronize('kbdInfo');
+      obj.identity().move(kbdInfo.x,kbdInfo.y,0).color(colors[kbdInfo.c]).scale(.15);
    });
 }
