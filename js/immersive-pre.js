@@ -278,7 +278,7 @@ function initAudioVolume() {
 function initWebcam() {
    if (! isHeadset) {
       videoElement.innerHTML = '<video id=webcam autoplay=true style="position:absolute;left:-2560px;"></video>';
-      if (navigator.mediaDevices.getUserMedia)
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
         navigator.mediaDevices.getUserMedia({ audio: false, video: true })
                  .then(function(stream) { webcam.srcObject = stream; },
                        function(error ) { console.log(error); });
