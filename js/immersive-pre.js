@@ -646,8 +646,6 @@ async function onSessionStarted(session) {
     try {
         xrGLFactory = new XRWebGLBinding(session, gl);
     } catch (error) {
-        console.console.error(err);
-        
         window.isLayersSuported = false;
     }
     // The emulator shows its view and controls only for a baseLayer.
