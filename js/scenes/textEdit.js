@@ -165,11 +165,15 @@ export const init = async model => {
    }
 
    window.mouseup = e => {
-      tes.col = nCols / 2 + tes.mouseX  / objScale() >> 0;
-      tes.row = (yTop - tes.mouseY) / 2 / objScale() >> 0;
-      tes.i   = Math.min(C[tes.row] + tes.col, C[tes.row+1]-1);
-      setCol = false;
-      updateText();
+      let col = nCols / 2 + tes.mouseX  / objScale() >> 0;
+      let row = (yTop - tes.mouseY) / 2 / objScale() >> 0;
+      if (row < C.length-1) {
+         tes.col = col;
+         tes.row = row;
+         tes.i   = Math.min(C[row] + col, C[row+1]-1);
+         setCol = false;
+         updateText();
+      }
    }
 
    // RESPOND TO KEYBOARD KEY EVENTS
