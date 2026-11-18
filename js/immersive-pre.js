@@ -646,11 +646,19 @@ async function onSessionStarted(session) {
     try {
         xrGLFactory = new XRWebGLBinding(session, gl);
     } catch (error) {
+        console.console.error(err);
+        
         window.isLayersSuported = false;
     }
     // The emulator shows its view and controls only for a baseLayer.
     if (emulatorView)
         window.isLayersSuported = false;
+
+    //Disable layers if not quest
+    if(navigator.userAgent.indexOf('Oculus') < 0)
+    {
+        window.isLayersSuported = false;
+    }
     console.log("layers supported: " + window.isLayersSuported);
 
     let glLayer = new XRWebGLLayer(session, gl);

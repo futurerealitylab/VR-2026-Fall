@@ -253,6 +253,13 @@ export class Scene extends Node {
     }
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, layer.framebuffer);
+    if (!window._fbLogged) {
+    window._fbLogged = true;
+    console.log('features', session.enabledFeatures,
+              'fb', layer.framebufferWidth, layer.framebufferHeight,
+              'status', gl.checkFramebufferStatus(gl.FRAMEBUFFER).toString(16),
+              'vp', [...pose.views].map(v => JSON.stringify(layer.getViewport(v))));
+    }
 
     if (this.clear) {
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

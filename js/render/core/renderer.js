@@ -1356,6 +1356,7 @@ export class Renderer {
 
   drawViews(views, rootNode, time) {
     if (!rootNode) {
+      //console.log("ERR IN drawViews");
       return;
     }
 
@@ -1363,10 +1364,11 @@ export class Renderer {
     this._frameId++;
 
     rootNode.markActive(this._frameId);
-
+    //console.log("views len " + views.length);
     // If there's only one view then flip the algorithm a bit so that we're only
     // setting the viewport once.
     if (views.length == 1 && views[0].viewport) {
+      //console.log("views len 1");
       let vp = views[0].viewport;
       this._gl.viewport(vp.x, vp.y, vp.width, vp.height);
     }
