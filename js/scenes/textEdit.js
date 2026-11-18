@@ -159,8 +159,9 @@ export const init = async model => {
    window.interactMode = 4;
 
    window.mousemove = e => {
-      tes.mouseX =  e.clientX/565 - 1.595;
-      tes.mouseY = -e.clientY/565 + 2.6  ;
+      let sw = screen.width, sh = screen.height;
+      tes.mouseX = 3.1858/sw * (e.clientX - sw/2);
+      tes.mouseY = 3.1858/sw * (1.26*sh - e.clientY);
       server.broadcastGlobal('tes');
    }
 
