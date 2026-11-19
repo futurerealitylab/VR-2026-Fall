@@ -659,7 +659,10 @@ async function onSessionStarted(session) {
     }
     console.log("layers supported: " + window.isLayersSuported);
 
-    let glLayer = new XRWebGLLayer(session, gl);
+    const layerInit = {
+       framebufferScaleFactor: 1.0,
+    };
+    let glLayer = new XRWebGLLayer(session, gl, layerInit);
     if (window.isLayersSuported && session.isImmersive){
         xrGLFactory = new XRWebGLBinding(session, gl);
         xrLayers.push(glLayer);
