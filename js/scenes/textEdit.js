@@ -8,24 +8,25 @@
 
 // USEFUL CONSTANTS
 
-const nCols = 50, nRows = 25, yTop = 1.5;
+const nCols = 50, nRows = 25;
 
 // RELOAD OR INITIALIZE THE SHARED TEXT EDITOR STATE
 
-let tes_json = localStorage.getItem('tes');
-if (tes_json)
-   window.tes = JSON.parse(tes_json);
-else
-   window.tes = {
+server.get('tes', saved_tes => {
+   window.tes = saved_tes ?? {
       i: 0,
-      text: '',
+      text: 'New document',
       fontHeight: .007,
       needToUpdate: true,
       col: 0,
       row: 0,
       mouseX: 0,
       mouseY: 0,
+      xCenter: 0,
+      yTop: 1.5,
    };
+   console.log('tes =', window.tes);
+});
 
 export const init = async model => {
 
@@ -94,7 +95,7 @@ export const init = async model => {
 	    continue;
 	 }
 
-         let u0 = ((c-32) % 12     ) / 12, u1 = u0 + 1 / 12;
+         let u0 = ((c-32) % 12     ) / 12+.01, u1 = u0 + 1 / 12-.01;
          let v0 = ((c-32) / 12 >> 0) /  8, v1 = v0 + 1 /  8;
 
 	 let n = 6 * 16 * (nCols * row + col) + 6;
@@ -158,23 +159,35 @@ export const init = async model => {
 
    window.interactMode = 4;
 
+   let isMouseDown, isOverText;
+
+   window.mousedown = e => isMouseDown = true;
+
    window.mousemove = e => {
       let sw = screen.width, sh = screen.height;
-      tes.mouseX = 3.1858/sw * (e.clientX - sw/2);
-      tes.mouseY = 3.1858/sw * (1.26*sh - e.clientY);
+      let mouseX = 3.1858/sw * (e.clientX - sw/2);
+      let mouseY = 3.1858/sw * (1.26*sh - e.clientY);
+      if (isMouseDown && ! isOverText) {
+         tes.xCenter += mouseX - tes.mouseX;
+         tes.yTop    += mouseY - tes.mouseY;
+      }
+      tes.mouseX = mouseX;
+      tes.mouseY = mouseY;
       server.broadcastGlobal('tes');
    }
 
    window.mouseup = e => {
-      let col = nCols / 2 + tes.mouseX  / objScale() >> 0;
-      let row = (yTop - tes.mouseY) / 2 / objScale() >> 0;
-      if (row < C.length-1) {
+      let col = nCols / 2 + (tes.mouseX - tes.xCenter) / objScale() >> 0;
+      let row = (tes.yTop - tes.mouseY) / 2 / objScale() >> 0;
+      let isOverText = row < C.length-1;
+      if (isOverText) {
          tes.col = col;
          tes.row = row;
          tes.i   = Math.min(C[row] + col, C[row+1]-1);
          setCol = false;
          updateText();
       }
+      isMouseDown = false;
    }
 
    // RESPOND TO KEYBOARD KEY EVENTS
@@ -230,7 +243,6 @@ export const init = async model => {
          break;
       }
       updateText();
-      localStorage.setItem('tes', JSON.stringify(tes));
       tes.needToUpdate = false;
    }
 
@@ -254,7 +266,7 @@ export const init = async model => {
 
       // DRAW THE TEXT EDITOR OBJECT AND MOUSE CROSSHAIRS
 
-      obj.identity().move(0,yTop,0).scale(objScale()).move(-nCols/2,0,0);
+      obj.identity().move(tes.xCenter,tes.yTop,0).scale(objScale()).move(-nCols/2,0,0);
       crosshairs.identity().move(tes.mouseX,tes.mouseY,.0005).scale(70 * objScale());
    });
 }
