@@ -12,20 +12,22 @@ const nCols = 50, nRows = 25;
 
 // RELOAD OR INITIALIZE THE SHARED TEXT EDITOR STATE
 
+window.tes = {
+   i: 0,
+   text: 'New document',
+   fontHeight: .007,
+   needToUpdate: true,
+   col: 0,
+   row: 0,
+   mouseX: 0,
+   mouseY: 0,
+   xCenter: 0,
+   yTop: 1.5,
+};
+
 server.get('tes', saved_tes => {
-   window.tes = saved_tes ?? {
-      i: 0,
-      text: 'New document',
-      fontHeight: .007,
-      needToUpdate: true,
-      col: 0,
-      row: 0,
-      mouseX: 0,
-      mouseY: 0,
-      xCenter: 0,
-      yTop: 1.5,
-   };
-   console.log('tes =', window.tes);
+   if (saved_tes)
+      window.tes = saved_tes;
 });
 
 export const init = async model => {
