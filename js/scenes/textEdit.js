@@ -208,7 +208,7 @@ export const init = async model => {
       case 'Shift':
          break;
       case 'ArrowDown':
-         if (isKeyDown.Shift)
+         if (isKeyDown.Control)
 	    tes.fontHeight /= 1.41428;
          else if (tes.row < C.length-2) {
 	    tes.i = Math.min(C[tes.row+1] + tes.col, C[tes.row+2]-1);
@@ -216,7 +216,7 @@ export const init = async model => {
 	 }
          break;
       case 'ArrowUp':
-         if (isKeyDown.Shift)
+         if (isKeyDown.Control)
 	    tes.fontHeight *= 1.41428;
          else if (tes.row > 0) {
 	    tes.i = Math.min(C[tes.row-1] + tes.col, C[tes.row]-1);
