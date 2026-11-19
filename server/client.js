@@ -302,6 +302,8 @@ function Server(wsPort) {
    let channelSendQueue = []; // SENDER CHANNELS MUST WAIT FOR A VALID WEB-RTC ID.
    let channelOpenQueue = []; // OPENER CHANNELS MUST WAIT FOR A VALID WEB-RTC ID.
 
+   let counter = {};
+
    this.synchronize = (name, interval) => {
 
       if (window.clients === undefined)                 // DO NOT DO ANYTHING UNTIL THE
@@ -377,15 +379,15 @@ function Server(wsPort) {
       }
 
       let i = interval===undefined ? 3 : Math.abs(interval); // DEFAULT interval IS 3 SECS
-      let counter = Date.now() / (1000 * i) >> 0;
+      let newCount = Date.now() / (1000 * i) >> 0;
       if (! neverLoadOrSave && ! window['waitForFirstUpdate__' + name] // IF NOT WAITING FOR A
-          && counter > this.counter                     // FIRST UPDATE, THEN AT EVERY INTERVAL
+          && newCount > counter[name]                   // FIRST UPDATE, THEN AT EVERY INTERVAL
           && isMasterClient()) {                        // COUNT THE MASTER CLIENT SAVES ITS
          this.set(name, window[name]);                  // CURRENT VALUE TO PERSISTENT STORAGE.
          if (interval > 0)                              // IF THE INTERVAL IS POSITIVE THEN
             this.broadcastGlobal(name);                 // IT ALSO UPDATES ALL OTHER CLIENTS.
       }
-      this.counter = counter;
+      counter[name] = newCount;
 
       return window[name];
    }
