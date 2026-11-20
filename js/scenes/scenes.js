@@ -22,6 +22,7 @@ export default () => {
             { name: "kbdEvents"  , path: "./kbdEvents.js"  , public: true },
             { name: "kbdEvents2" , path: "./kbdEvents2.js" , public: true },
             { name: "textEdit"   , path: "./textEdit.js"   , public: true },
+            { name: "textEdit2"  , path: "./textEdit2.js"  , public: true },
       ]
    };
 }
